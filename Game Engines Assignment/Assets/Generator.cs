@@ -40,7 +40,6 @@ public class Generator : MonoBehaviour
         Color red = new Color(255,0,0);
         Color yellow = new Color(255,255,0);
         Color black = new Color(0,0,0);
-
         MeshRenderer gameObjectRenderer = ball.GetComponent<MeshRenderer>();
         Material newMaterial = new Material(Shader.Find("Standard"));
 
