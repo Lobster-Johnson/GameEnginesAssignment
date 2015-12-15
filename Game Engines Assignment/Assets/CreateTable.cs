@@ -6,9 +6,10 @@ public class CreateTable : MonoBehaviour
     public GameObject cue;
     public GameObject table;
     public GameObject wall;
-    public int height;
+    public int height = 10;
     public int width = 7;
     public float elevation = 0.5f;
+    public int tableCenter = 3;
 
 	// Use this for initialization
 	void Start ()
@@ -41,7 +42,7 @@ public class CreateTable : MonoBehaviour
     {
         //create and scale table
         Instantiate(table);
-        table.transform.position = new Vector3(0, 0, 3);
+        table.transform.position = new Vector3(0, 0, tableCenter);
         table.transform.localScale = new Vector3(1.3f, 1, 1.3f);
         
         //create inner walls and pockets
