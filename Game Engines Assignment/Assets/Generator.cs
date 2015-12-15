@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 
 public class Generator : MonoBehaviour {
-    public GameObject test;
+    public GameObject ball;
 	//ball creation algorithm
     //needs to create balls in a triangle
 	void Start () {
         //
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
         int z = 5;
         float offset = 0;
 
@@ -28,9 +29,9 @@ public class Generator : MonoBehaviour {
     //creates a ball, makes it a rigid body, gives it a location
 	void createBall(float x, int z)
     {
-        Instantiate(test);
-        test.GetComponent<Rigidbody>();
+        Instantiate(ball);
+        ball.GetComponent<Rigidbody>();
         //test.Rigidbody.mass = 0.5f;
-        test.transform.position = new Vector3(x, 1, z);
+        ball.transform.position = new Vector3(x, 1, z);
     }
 }
