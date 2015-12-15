@@ -17,10 +17,19 @@ public class CreateTable : MonoBehaviour {
 
 	}
 
+    //generate cue ball and make it white
     void generateCueBall()
     {
+        //generate cue at this position
         Instantiate(cue);
         cue.transform.position = new Vector3(0, 0.5f, 0);
+
+        //set the cue ball to a white colour
+        Color white = new Color(255, 255, 255);
+        MeshRenderer gameObjectRenderer = cue.GetComponent<MeshRenderer>();
+        Material newMaterial = new Material(Shader.Find("Standard"));
+        newMaterial.color = white;
+        gameObjectRenderer.material = newMaterial;
     }
 
     void generateTable ()

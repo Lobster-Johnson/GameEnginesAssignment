@@ -10,6 +10,7 @@ public class Generator : MonoBehaviour
     {
         
         int z = 5;
+        int ballnumber = 1;
         float offset = 0;
 
         //begin loop to generate triangle of balls
@@ -18,7 +19,8 @@ public class Generator : MonoBehaviour
             for(float j = 0; j < i+1; j++)
             {
                 
-                createBall(j - offset, z, i);
+                createBall(j - offset, z, ballnumber);
+                ballnumber++;
             }
             z++;
             offset += 0.5f;
@@ -35,5 +37,29 @@ public class Generator : MonoBehaviour
         ball.transform.position = new Vector3(x, 1, z);
 
         //colour based on number
+        Color red = new Color(255,0,0);
+        Color yellow = new Color(255,255,0);
+        Color black = new Color(0,0,0);
+
+        MeshRenderer gameObjectRenderer = ball.GetComponent<MeshRenderer>();
+        Material newMaterial = new Material(Shader.Find("Standard"));
+
+        //if the number is 5, it's the black ball
+        //if the number is odd, it's yellow
+        //if the number is even, it's red
+        if(number == 5)
+        {
+            newMaterial.color = black;
+        }
+        else if (number % 2 == 1)
+        {
+            newMaterial.color = yellow;
+        }
+        else if(number % 2 == 0)
+        {
+            newMaterial.color = red;
+        }
+        
+        gameObjectRenderer.material = newMaterial;
     }
 }
