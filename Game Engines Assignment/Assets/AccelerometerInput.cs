@@ -6,7 +6,7 @@ public class AccelerometerInput : MonoBehaviour {
     public Rigidbody rb;
 	
 	// Use the gyroscope to move the balls about
-    //needs force instead of transforms to make phsyics work
+    //Gets the tilt of the device and translates it into a force on the ball
 	void Update () {
         
        
@@ -24,10 +24,7 @@ public class AccelerometerInput : MonoBehaviour {
         
 
 
-        //Backup controls
-        //float moveX = (Input.acceleration.x * speed);
-        //float moveY = (Input.acceleration.y * speed);
-        //transform.Translate(moveX, 0, moveY);
+        
 
     }
 }
