@@ -4,7 +4,6 @@ using System.Collections;
 public class CreateTable : MonoBehaviour
 {
     public GameObject cue;
-    public GameObject table;
     public GameObject wall;
     public int height = 9;
     public int width = 7;
@@ -31,22 +30,12 @@ public class CreateTable : MonoBehaviour
         cue.transform.position = new Vector3(0, elevation, 0);
 
         //set the cue ball to a white colour
-        //Color white = new Color(255, 255, 255);
-        MeshRenderer gameObjectRenderer = cue.GetComponent<MeshRenderer>();
-        Material newMaterial = new Material(Shader.Find("Standard"));
-        newMaterial.color = Color.white;
-        gameObjectRenderer.material = newMaterial;
+        colourNext(cue, 0);
     }
 
     //generate the walls of the table
     void generateTable ()
     {
-        //create and scale table
-        //Instantiate(table);
-        //table.transform.position = new Vector3(0, 0, tableCenter);
-        //table.transform.localScale = new Vector3(1.5f, 1, 1.5f);
-        
-
         
         int corner1 = height + tableCenter;
         int corner2 = tableCenter - height;
@@ -60,24 +49,53 @@ public class CreateTable : MonoBehaviour
             if (i == -width || i == width)
             {
                 //start from the bottom, work up creating wall units
-                for (int j = corner2; j < corner1+1; j++)
+                for (int j = corner2+1; j < corner1; j++)
                 {
-                    //if halfway through leave a pocket
+                    //Leave pockets
                     if (j != tableCenter)
                     {
                         Instantiate(wall);
                         wall.transform.position = new Vector3(i, elevation, j);
+
+                        //make it grey if it's next to a pocket, otherwise make it green
+                        if (j == tableCenter + 1 || j == tableCenter - 1 || j == corner2 +1 || j == corner1 -1)
+                        {
+                            colourNext(wall, 4);
+                        }
+                        else
+                        {
+                            colourNext(wall, 2);
+                        }
                     }
                 }
             }
             else
             {
+                
                 //upper wall
                 Instantiate(wall);
                 wall.transform.position = new Vector3(i, elevation, corner1);
+                if (i == width - 1 || i == -width + 1)
+                {
+                    colourNext(wall, 4);
+                }
+                else
+                {
+                    colourNext(wall, 2);
+                }
+                
                 //lower wall
                 Instantiate(wall);
                 wall.transform.position = new Vector3(i, elevation, corner2);
+                if (i == width - 1 || i == -width + 1)
+                {
+                    colourNext(wall, 4);
+                }
+                else
+                {
+                    colourNext(wall, 2);
+                }
+
             }
         }
 
@@ -88,12 +106,12 @@ public class CreateTable : MonoBehaviour
             //upper wall
             Instantiate(wall);
             wall.transform.position = new Vector3(i, elevation, corner1+1);
-            colourNext(wall);
+            colourNext(wall, 3);
 
             //lower wall
             Instantiate(wall);
             wall.transform.position = new Vector3(i, elevation, corner2-1);
-            colourNext(wall);
+            colourNext(wall, 3);
 
             //if at a corner, create a wall under it
             if (i == -(width+1) || i == (width+1))
@@ -103,7 +121,7 @@ public class CreateTable : MonoBehaviour
                    
                     Instantiate(wall);
                     wall.transform.position = new Vector3(i, elevation, j);
-                    colourNext(wall);
+                    colourNext(wall, 3);
                     
                 }
             }
@@ -111,12 +129,38 @@ public class CreateTable : MonoBehaviour
        }
 
     //colour in objects passed in
-    void colourNext(GameObject obj)
+    void colourNext(GameObject obj, int code)
     {
-        //Color brown = new Color(205, 133, 0);
+        
         MeshRenderer gameObjectRenderer = obj.GetComponent<MeshRenderer>();
         Material newMaterial = new Material(Shader.Find("Standard"));
-        newMaterial.color = Color.black;
+        
+        //determine colour
+        //0 = cue ball
+        if (code == 0)
+        {
+            newMaterial.color = Color.white;
+        }
+        //1 = floor
+        if(code == 1)
+        {
+            newMaterial.color = new Color32(0, 182, 0, 255); 
+        }
+        //2 = wall
+        if (code == 2)
+        {
+            newMaterial.color = new Color32(0, 102, 0, 255);
+        }
+        //3 = outer wall
+        if(code == 3)
+        {
+            newMaterial.color = new Color32(102,51,0, 255);
+        }
+        //4 = pocket
+        if(code == 4)
+        {
+            newMaterial.color = new Color32(96, 96, 96, 255);
+        }
         gameObjectRenderer.material = newMaterial;
     }
 
@@ -133,6 +177,7 @@ public class CreateTable : MonoBehaviour
             {
                 Instantiate(wall);
                 wall.transform.position = new Vector3(i, -elevation, j);
+                colourNext(wall, 1);
             }
         }
     }
