@@ -29,6 +29,11 @@ public class TriggerScript : MonoBehaviour {
                 //play boo
                 audio.PlayOneShot(boo, 0.5f);
                 break;
+            case "Black":
+                Debug.Log("Black");
+                //play boo
+                audio.PlayOneShot(boo, 0.5f);
+                break;
         }
     }
 }

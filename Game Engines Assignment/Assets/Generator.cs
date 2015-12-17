@@ -8,9 +8,11 @@ public class Generator : MonoBehaviour
     //needs to create balls in a triangle
 	void Start ()
     {
-        
+        //represents rows
         int z = 5;
+        //current ball number
         int ballnumber = 1;
+        //offset to put balls in a pyramid shape
         float offset = 0;
 
         //begin loop to generate triangle of balls
@@ -48,6 +50,7 @@ public class Generator : MonoBehaviour
         //if the number is even, it's red
         if(number == 5)
         {
+            //ball.tag = "Black";
             newMaterial.color = black;
         }
         else if (number % 2 == 1)

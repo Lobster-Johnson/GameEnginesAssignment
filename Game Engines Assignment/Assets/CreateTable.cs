@@ -42,11 +42,11 @@ public class CreateTable : MonoBehaviour
     //generate the walls of the table
     void generateTable ()
     {
-        //using the height and table center calculate the corners
-        //corner 1 represents the upper corners
-        //corner 2 represents the lower corners
-        int corner1 = height + tableCenter;
-        int corner2 = tableCenter - height;
+        //using the height and table center calculate the final height
+        //height 1 represents the upper half of the table
+        //height 2 represents the lower half of the table
+        int height1 = height + tableCenter;
+        int height2 = tableCenter - height;
 
         
 
@@ -59,12 +59,12 @@ public class CreateTable : MonoBehaviour
             if (i == -width || i == width)
             {
                 //start from the bottom, work up creating wall units while leaving space for corner pockets
-                for (int j = corner2+1; j < corner1; j++)
+                for (int j = height2+1; j < height1; j++)
                 {
                     //Leave a pocket on the sides at the halfway point
                     if (j != tableCenter)
                     {
-                        InnerSideWall(i, j, corner1, corner2);
+                        InnerSideWall(i, j, height1, height2);
                         
                     }
                 }
@@ -72,9 +72,9 @@ public class CreateTable : MonoBehaviour
             else
             {
                 //upper wall
-                InnerTopBottomWalls(i, corner1);
+                InnerTopBottomWalls(i, height1);
                 //lower wall
-                InnerTopBottomWalls(i, corner2);
+                InnerTopBottomWalls(i, height2);
 
             }
         }
@@ -85,18 +85,18 @@ public class CreateTable : MonoBehaviour
         {
             //upper wall
             Instantiate(wall);
-            wall.transform.position = new Vector3(i, elevation, corner1+1);
+            wall.transform.position = new Vector3(i, elevation, height1+1);
             colourNext(wall, 3);
 
             //lower wall
             Instantiate(wall);
-            wall.transform.position = new Vector3(i, elevation, corner2-1);
+            wall.transform.position = new Vector3(i, elevation, height2-1);
             colourNext(wall, 3);
 
             //if at a corner, create a wall under it
             if (i == -(width+1) || i == (width+1))
             {
-                for (int j = corner2; j < corner1+1; j++)
+                for (int j = height2; j < height1+1; j++)
                 {
                    
                     Instantiate(wall);
@@ -108,18 +108,16 @@ public class CreateTable : MonoBehaviour
         }
 
         //generate triggers
-        int h1 = (height + tableCenter);
-        int h2 = (tableCenter - height);
-
+       
         //upper pockets
-        generatePockets(-width, h1);
-        generatePockets(width, h1);
+        generatePockets(-width, height1);
+        generatePockets(width, height1);
         //center pockets
         generatePockets(-width, tableCenter);
         generatePockets(width, tableCenter);
         //lower pockets
-        generatePockets(-width, h2);
-        generatePockets(width, h2);
+        generatePockets(-width, height2);
+        generatePockets(width, height2);
 
     }
 
@@ -188,7 +186,6 @@ public class CreateTable : MonoBehaviour
     {
         
         Instantiate(trigger);
-        //trigger.transform.localScale();
         trigger.transform.position = new Vector3(x,-(elevation + 1), y);
         trigger.GetComponent<MeshRenderer>().enabled = false;
         trigger.GetComponent<TriggerScript>();
@@ -228,7 +225,7 @@ public class CreateTable : MonoBehaviour
     }
 
 
-
+    //create the top and bottom inner walls
     void InnerTopBottomWalls(int i, int c)
     {
         
