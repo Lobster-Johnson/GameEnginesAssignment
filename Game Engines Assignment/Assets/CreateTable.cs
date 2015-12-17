@@ -36,9 +36,13 @@ public class CreateTable : MonoBehaviour
     //generate the walls of the table
     void generateTable ()
     {
-        
+        //using the height and table center calculate the corners
+        //corner 1 represents the upper corners
+        //corner 2 represents the lower corners
         int corner1 = height + tableCenter;
         int corner2 = tableCenter - height;
+
+        
 
         //inner wall
         //upper and lower wall
@@ -48,53 +52,23 @@ public class CreateTable : MonoBehaviour
             //if at a corner, create a wall under it and leave a pocket
             if (i == -width || i == width)
             {
-                //start from the bottom, work up creating wall units
+                //start from the bottom, work up creating wall units while leaving space for corner pockets
                 for (int j = corner2+1; j < corner1; j++)
                 {
-                    //Leave pockets
+                    //Leave a pocket on the sides at the halfway point
                     if (j != tableCenter)
                     {
-                        Instantiate(wall);
-                        wall.transform.position = new Vector3(i, elevation, j);
-
-                        //make it grey if it's next to a pocket, otherwise make it green
-                        if (j == tableCenter + 1 || j == tableCenter - 1 || j == corner2 +1 || j == corner1 -1)
-                        {
-                            colourNext(wall, 4);
-                        }
-                        else
-                        {
-                            colourNext(wall, 2);
-                        }
+                        InnerSideWall(i, j, corner1, corner2);
+                        
                     }
                 }
             }
             else
             {
-                
                 //upper wall
-                Instantiate(wall);
-                wall.transform.position = new Vector3(i, elevation, corner1);
-                if (i == width - 1 || i == -width + 1)
-                {
-                    colourNext(wall, 4);
-                }
-                else
-                {
-                    colourNext(wall, 2);
-                }
-                
+                InnerTopBottomWalls(i, corner1);
                 //lower wall
-                Instantiate(wall);
-                wall.transform.position = new Vector3(i, elevation, corner2);
-                if (i == width - 1 || i == -width + 1)
-                {
-                    colourNext(wall, 4);
-                }
-                else
-                {
-                    colourNext(wall, 2);
-                }
+                InnerTopBottomWalls(i, corner2);
 
             }
         }
@@ -134,7 +108,8 @@ public class CreateTable : MonoBehaviour
         
         MeshRenderer gameObjectRenderer = obj.GetComponent<MeshRenderer>();
         Material newMaterial = new Material(Shader.Find("Standard"));
-        
+        newMaterial.color = Color.white;
+
         //determine colour
         //0 = cue ball
         if (code == 0)
@@ -146,7 +121,7 @@ public class CreateTable : MonoBehaviour
         {
             newMaterial.color = new Color32(0, 182, 0, 255); 
         }
-        //2 = wall
+        //2 = inner wall
         if (code == 2)
         {
             newMaterial.color = new Color32(0, 102, 0, 255);
@@ -179,6 +154,64 @@ public class CreateTable : MonoBehaviour
                 wall.transform.position = new Vector3(i, -elevation, j);
                 colourNext(wall, 1);
             }
+        }
+    }
+
+    //function to create the sides of the inner wall
+    void InnerSideWall(int i, int j, int c1, int c2)
+    {
+        Instantiate(wall);
+        wall.transform.position = new Vector3(i, elevation, j);
+        float offset = 0.8f;
+
+        //make it grey if it's next to a pocket, otherwise make it green
+        if (j == tableCenter + 1 || j == tableCenter - 1 || j == c2 + 1 || j == c1 - 1)
+        {
+            colourNext(wall, 4);
+        }
+        else
+        {
+            colourNext(wall, 2);
+        }
+
+        //offset the blocks to leave pockets
+        //if it's above the center pocket or above the bottom corner pocket, pull it up
+        if (j == c2 +1 || j == tableCenter + 1)
+        {
+            wall.transform.position = new Vector3(i, elevation, j + offset);
+        }
+
+        //if it's below the center pocket or below the top pocket, pull it down
+        if (j == c1 - 1 || j == tableCenter - 1)
+        {
+            wall.transform.position = new Vector3(i, elevation, j - offset);
+        }
+    }
+
+    void InnerTopBottomWalls(int i, int c)
+    {
+        float offset = 0.8f;
+        Instantiate(wall);
+        wall.transform.position = new Vector3(i, elevation, c);
+
+        //if it's next to a pocket make it grey, otherwise make it green
+        if (i == width - 1 || i == -width + 1)
+        {
+            colourNext(wall, 4);
+        }
+        else
+        {
+            colourNext(wall, 2);
+        }
+        //if next to right corner pocket
+        if (i == width - 1)
+        {
+            wall.transform.position = new Vector3(i - offset, elevation, c);
+        }
+        //if next to left corner pocket
+        if(i == -width + 1)
+        {
+            wall.transform.position = new Vector3(i + offset, elevation, c);
         }
     }
 }
