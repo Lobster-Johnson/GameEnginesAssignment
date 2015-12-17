@@ -69,6 +69,7 @@ public class CreateTable : MonoBehaviour
                     }
                 }
             }
+            //if it wasn't a corner piece, add top and bottom wall units
             else
             {
                 //upper wall
@@ -79,7 +80,7 @@ public class CreateTable : MonoBehaviour
             }
         }
 
-        //-----------------------------------------------------------
+        
         //create outer wall
         for (int i = -(width+1); i < width + 2; i++)
         {

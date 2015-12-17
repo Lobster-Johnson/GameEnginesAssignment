@@ -7,7 +7,7 @@ public class CollisionScript : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
-        Debug.Log("Bang");
+        
         audio = GetComponent<AudioSource>();
         //if a ball hits either another ball or the cue, play this sound
         if (col.gameObject.tag == "Ball" || col.gameObject.tag == "Cue Ball")

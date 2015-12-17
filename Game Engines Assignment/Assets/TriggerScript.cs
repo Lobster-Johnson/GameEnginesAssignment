@@ -2,12 +2,13 @@
 using System.Collections;
 
 public class TriggerScript : MonoBehaviour {
-    //if an object enters this pocket
+    
     public AudioClip applause;
     public AudioClip boo;
     AudioSource audio;
     static bool lost = false;
-    
+
+    //if an object enters this pocket
     void OnTriggerEnter(Collider col)
     {
         

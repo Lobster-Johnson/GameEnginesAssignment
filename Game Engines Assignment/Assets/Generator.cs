@@ -4,8 +4,8 @@ using System.Collections.Generic;
 public class Generator : MonoBehaviour
 {
     public GameObject ball;
+
 	//ball creation algorithm
-    //needs to create balls in a triangle
 	void Start ()
     {
         //represents rows
