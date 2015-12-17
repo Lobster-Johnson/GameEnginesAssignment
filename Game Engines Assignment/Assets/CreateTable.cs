@@ -10,6 +10,7 @@ public class CreateTable : MonoBehaviour
     public int width = 7;
     public float elevation = 0.5f;
     public int tableCenter = 3;
+    public float offset = 0.75f;
 
 	// Use this for initialization
 	void Start ()
@@ -200,7 +201,7 @@ public class CreateTable : MonoBehaviour
     {
         Instantiate(wall);
         wall.transform.position = new Vector3(i, elevation, j);
-        float offset = 0.75f;
+        
 
         //make it grey if it's next to a pocket, otherwise make it green
         if (j == tableCenter + 1 || j == tableCenter - 1 || j == c2 + 1 || j == c1 - 1)
@@ -216,13 +217,13 @@ public class CreateTable : MonoBehaviour
         //if it's above the center pocket or above the bottom corner pocket, pull it up
         if (j == c2 +1 || j == tableCenter + 1)
         {
-            wall.transform.position = new Vector3(i, elevation, j + offset);
+            wall.transform.position = new Vector3(i, elevation + 0.01f, j + offset);
         }
 
         //if it's below the center pocket or below the top pocket, pull it down
         if (j == c1 - 1 || j == tableCenter - 1)
         {
-            wall.transform.position = new Vector3(i, elevation, j - offset);
+            wall.transform.position = new Vector3(i, elevation + 0.01f, j - offset);
         }
     }
 
@@ -230,7 +231,7 @@ public class CreateTable : MonoBehaviour
 
     void InnerTopBottomWalls(int i, int c)
     {
-        float offset = 0.75f;
+        
         Instantiate(wall);
         wall.transform.position = new Vector3(i, elevation, c);
 
@@ -243,15 +244,15 @@ public class CreateTable : MonoBehaviour
         {
             colourNext(wall, 2);
         }
-        //if next to right corner pocket
+        //if next to right corner pocket, pull to the left
         if (i == width - 1)
         {
-            wall.transform.position = new Vector3(i - offset, elevation, c);
+            wall.transform.position = new Vector3(i - offset, elevation + 0.01f, c);
         }
-        //if next to left corner pocket
+        //if next to left corner pocket, pull to the right
         if(i == -width + 1)
         {
-            wall.transform.position = new Vector3(i + offset, elevation, c);
+            wall.transform.position = new Vector3(i + offset, elevation + 0.01f, c);
         }
     }
 }
