@@ -189,8 +189,8 @@ public class CreateTable : MonoBehaviour
         
         Instantiate(trigger);
         //trigger.transform.localScale();
-        trigger.transform.position = new Vector3(x,-elevation, y);
-        //trigger.GetComponent<MeshRenderer>().enabled = false;
+        trigger.transform.position = new Vector3(x,-(elevation + 1), y);
+        trigger.GetComponent<MeshRenderer>().enabled = false;
     }
 
 
