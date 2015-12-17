@@ -133,30 +133,29 @@ public class CreateTable : MonoBehaviour
         newMaterial.color = Color.white;
 
         //determine colour
-        //0 = cue ball
-        if (code == 0)
+        switch (code)
         {
-            newMaterial.color = Color.white;
-        }
-        //1 = floor
-        if(code == 1)
-        {
-            newMaterial.color = new Color32(0, 182, 0, 255); 
-        }
-        //2 = inner wall
-        if (code == 2)
-        {
-            newMaterial.color = new Color32(0, 102, 0, 255);
-        }
-        //3 = outer wall
-        if(code == 3)
-        {
-            newMaterial.color = new Color32(102,51,0, 255);
-        }
-        //4 = pocket
-        if(code == 4)
-        {
-            newMaterial.color = new Color32(96, 96, 96, 255);
+            //0 = cue ball
+            case 0:
+                newMaterial.color = Color.white;
+                break;
+
+            //1 = floor
+            case 1:
+                newMaterial.color = new Color32(0, 182, 0, 255);
+                break;
+            //2 = inner wall
+            case 2:
+                newMaterial.color = new Color32(0, 102, 0, 255);
+                break;
+            //3 = outer wall
+            case 3:
+                newMaterial.color = new Color32(102, 51, 0, 255);
+                break;
+            //4 = pocket
+            case 4:
+                newMaterial.color = new Color32(96, 96, 96, 255);
+                break;
         }
         gameObjectRenderer.material = newMaterial;
     }
@@ -191,6 +190,7 @@ public class CreateTable : MonoBehaviour
         //trigger.transform.localScale();
         trigger.transform.position = new Vector3(x,-(elevation + 1), y);
         trigger.GetComponent<MeshRenderer>().enabled = false;
+        trigger.GetComponent<TriggerScript>();
     }
 
 
