@@ -5,6 +5,7 @@ public class CreateTable : MonoBehaviour
 {
     public GameObject cue;
     public GameObject wall;
+    public GameObject trigger;
     public int height = 9;
     public int width = 7;
     public float elevation = 0.5f;
@@ -100,6 +101,10 @@ public class CreateTable : MonoBehaviour
                 }
             }
         }
+
+        //generate triggers
+        generatePockets();
+
        }
 
     //colour in objects passed in
@@ -157,12 +162,24 @@ public class CreateTable : MonoBehaviour
         }
     }
 
+    //create triggers in each pocket
+    void generatePockets()
+    {
+        int h1 = (height + tableCenter);
+        int h2 = (tableCenter - height);
+
+        Instantiate(trigger);
+        //trigger.transform.localScale();
+        trigger.transform.position = new Vector3(-width,-elevation, h1);
+        trigger.GetComponent<MeshRenderer>().enabled = false;
+    }
+
     //function to create the sides of the inner wall
     void InnerSideWall(int i, int j, int c1, int c2)
     {
         Instantiate(wall);
         wall.transform.position = new Vector3(i, elevation, j);
-        float offset = 0.8f;
+        float offset = 0.75f;
 
         //make it grey if it's next to a pocket, otherwise make it green
         if (j == tableCenter + 1 || j == tableCenter - 1 || j == c2 + 1 || j == c1 - 1)
@@ -190,7 +207,7 @@ public class CreateTable : MonoBehaviour
 
     void InnerTopBottomWalls(int i, int c)
     {
-        float offset = 0.8f;
+        float offset = 0.75f;
         Instantiate(wall);
         wall.transform.position = new Vector3(i, elevation, c);
 
