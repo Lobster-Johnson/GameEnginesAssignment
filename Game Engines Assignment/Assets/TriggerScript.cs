@@ -6,34 +6,40 @@ public class TriggerScript : MonoBehaviour {
     public AudioClip applause;
     public AudioClip boo;
     AudioSource audio;
-
+    static bool lost = false;
+    
     void OnTriggerEnter(Collider col)
     {
-        //if an object enters, give a debug message and launch it straight down
-        Debug.Log("Got one!");
+        
+        //if an object enters, launch it straight down
         Rigidbody rb = col.GetComponent<Rigidbody>();
-        rb.AddForce(Vector3.down*1000, ForceMode.Acceleration);
+        rb.AddForce(Vector3.down * 1000, ForceMode.Acceleration);
         audio = GetComponent<AudioSource>();
 
         //get the object tag
         switch (col.gameObject.tag)
         {
             case "Ball":
-                Debug.Log("Ball");
-                //play applause
-                audio.PlayOneShot(applause, 0.5f);
+                //play applause if the user hasn't lost
+                if (lost == false)
+                {
+                    Score.increaseScore(1);
+                    audio.PlayOneShot(applause, 0.5f);
+                }
                 break;
 
+                //if the player pots the cue they lose. Boo them
             case "CueBall":
-                Debug.Log("Cue ball");
                 //play boo
+                lost = true;
+                Score.lose();
                 audio.PlayOneShot(boo, 0.5f);
                 break;
-            case "Black":
-                Debug.Log("Black");
-                //play boo
-                audio.PlayOneShot(boo, 0.5f);
-                break;
-        }
+
+            }
+        
+
+        
     }
+    
 }

@@ -83,28 +83,9 @@ public class CreateTable : MonoBehaviour
         //create outer wall
         for (int i = -(width+1); i < width + 2; i++)
         {
-            //upper wall
-            Instantiate(wall);
-            wall.transform.position = new Vector3(i, elevation, height1+1);
-            colourNext(wall, 3);
-
-            //lower wall
-            Instantiate(wall);
-            wall.transform.position = new Vector3(i, elevation, height2-1);
-            colourNext(wall, 3);
-
-            //if at a corner, create a wall under it
-            if (i == -(width+1) || i == (width+1))
-            {
-                for (int j = height2; j < height1+1; j++)
-                {
-                   
-                    Instantiate(wall);
-                    wall.transform.position = new Vector3(i, elevation, j);
-                    colourNext(wall, 3);
-                    
-                }
-            }
+            OuterWall(i, height1 + 1);
+            OuterWall(i, height2 - 1);
+            
         }
 
         //generate triggers
@@ -194,14 +175,14 @@ public class CreateTable : MonoBehaviour
 
 
     //function to create the sides of the inner wall
-    void InnerSideWall(int i, int j, int c1, int c2)
+    void InnerSideWall(int i, int j, int h1, int h2)
     {
         Instantiate(wall);
         wall.transform.position = new Vector3(i, elevation, j);
         
 
         //make it grey if it's next to a pocket, otherwise make it green
-        if (j == tableCenter + 1 || j == tableCenter - 1 || j == c2 + 1 || j == c1 - 1)
+        if (j == tableCenter + 1 || j == tableCenter - 1 || j == h2 + 1 || j == h1 - 1)
         {
             colourNext(wall, 4);
         }
@@ -212,17 +193,18 @@ public class CreateTable : MonoBehaviour
 
         //offset the blocks to leave pockets
         //if it's above the center pocket or above the bottom corner pocket, pull it up
-        if (j == c2 +1 || j == tableCenter + 1)
+        if (j == h2 +1 || j == tableCenter + 1)
         {
             wall.transform.position = new Vector3(i, elevation + 0.01f, j + offset);
         }
 
         //if it's below the center pocket or below the top pocket, pull it down
-        if (j == c1 - 1 || j == tableCenter - 1)
+        if (j == h1 - 1 || j == tableCenter - 1)
         {
             wall.transform.position = new Vector3(i, elevation + 0.01f, j - offset);
         }
     }
+
 
 
     //create the top and bottom inner walls
@@ -252,4 +234,31 @@ public class CreateTable : MonoBehaviour
             wall.transform.position = new Vector3(i + offset, elevation + 0.01f, c);
         }
     }
+
+
+
+    //create the outer walls of the pool table
+    void OuterWall(int i, int hUsed)
+    {
+        int height1 = height + tableCenter;
+        int height2 = tableCenter - height;
+
+        Instantiate(wall);
+        wall.transform.position = new Vector3(i, elevation, hUsed);
+        colourNext(wall, 3);
+
+        //if at a corner, create a wall under it
+        if (i == -(width + 1) || i == (width + 1))
+        {
+            for (int j = height2; j < height1 + 1; j++)
+            {
+
+                Instantiate(wall);
+                wall.transform.position = new Vector3(i, elevation, j);
+                colourNext(wall, 3);
+
+            }
+        }
+    }
+
 }
