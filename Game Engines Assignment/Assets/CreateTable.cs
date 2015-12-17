@@ -23,6 +23,8 @@ public class CreateTable : MonoBehaviour
 
 	}
 
+
+
     //generate cue ball and make it white
     void generateCueBall()
     {
@@ -33,6 +35,8 @@ public class CreateTable : MonoBehaviour
         //set the cue ball to a white colour
         colourNext(cue, 0);
     }
+
+
 
     //generate the walls of the table
     void generateTable ()
@@ -103,9 +107,22 @@ public class CreateTable : MonoBehaviour
         }
 
         //generate triggers
-        generatePockets();
+        int h1 = (height + tableCenter);
+        int h2 = (tableCenter - height);
 
-       }
+        //upper pockets
+        generatePockets(-width, h1);
+        generatePockets(width, h1);
+        //center pockets
+        generatePockets(-width, tableCenter);
+        generatePockets(width, tableCenter);
+        //lower pockets
+        generatePockets(-width, h2);
+        generatePockets(width, h2);
+
+    }
+
+
 
     //colour in objects passed in
     void colourNext(GameObject obj, int code)
@@ -144,6 +161,8 @@ public class CreateTable : MonoBehaviour
         gameObjectRenderer.material = newMaterial;
     }
 
+
+
     //using height and width create a surface for the pool table
     void generateFloor()
     {
@@ -162,17 +181,19 @@ public class CreateTable : MonoBehaviour
         }
     }
 
-    //create triggers in each pocket
-    void generatePockets()
-    {
-        int h1 = (height + tableCenter);
-        int h2 = (tableCenter - height);
 
+
+    //create triggers in each pocket
+    void generatePockets(int x, int y)
+    {
+        
         Instantiate(trigger);
         //trigger.transform.localScale();
-        trigger.transform.position = new Vector3(-width,-elevation, h1);
-        trigger.GetComponent<MeshRenderer>().enabled = false;
+        trigger.transform.position = new Vector3(x,-elevation, y);
+        //trigger.GetComponent<MeshRenderer>().enabled = false;
     }
+
+
 
     //function to create the sides of the inner wall
     void InnerSideWall(int i, int j, int c1, int c2)
@@ -204,6 +225,8 @@ public class CreateTable : MonoBehaviour
             wall.transform.position = new Vector3(i, elevation, j - offset);
         }
     }
+
+
 
     void InnerTopBottomWalls(int i, int c)
     {
